@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgis/postgis
+    env_file:
+      - .env
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./db/db_init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile-api
+    env_file:
+      - .env
+    ports:
+      - "555:5000"
+    depends_on:
+      - db
+    command:  ["./wait-for-it.sh", "db:5432", "--", "flask", "--app", "api", "run", "--host=0.0.0.0"]
+  
+  frontend:
+    build: 
+      context: .
+      dockerfile: Dockerfile-frontend
+    ports:
+      - "666:80"
+    depends_on:
+      - api
