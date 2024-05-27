@@ -113,5 +113,22 @@ def validate_bearer_token(headers):
     return None
 
 
+def get_cells_by_polygon(polygon, id_anp):
+    data = None
+    try:
+        cur = conn.cursor()
+        cur.execute(f'SELECT a.id, st_asgeojson(a.geom), c.id_colour \
+                    FROM grid_1km as a JOIN anp as b ON st_intersects(a.geom, b.geom) \
+                    LEFT JOIN colouration as c ON a.id=c.id_cell \
+                    WHERE b.id={id_anp} and \
+                        st_intersects(st_setsrid(a.geom, 4326), st_setsrid(st_geomfromgeojson(\'{polygon}\'), 4326))')
+        data = cur.fetchall()
+        cur.close()
+    except Exception as e:
+        print(str(e))
+    finally:
+        cur.close()
+    return data
+
 
 

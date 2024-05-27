@@ -8,8 +8,6 @@ services:
       - .env
     ports:
       - "5433:5432"
-    volumes:
-      - ./db/db_init.sql:/docker-entrypoint-initdb.d/init.sql
 
   api:
     build:

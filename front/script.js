@@ -21,10 +21,11 @@ $(document).ready(function(){
         baseLayers.GoogleMaps.addTo(map);
         L.control.layers(baseLayers).addTo(map);
     
-        var baseUrlApi = 'http://127.0.0.1:555';
+        //var baseUrlApi = 'http://127.0.0.1:555';
+        var baseUrlApi = 'http://127.0.0.1:5000';
         var anpId = null;
         var colouration = {};
-        const colours = {
+        /*const colours = {
           '#1a9641': 1,
           '#a6d96a': 2,
           '#fdae61': 3,
@@ -40,7 +41,24 @@ $(document).ready(function(){
         const color1 = '#1a9641';
         const color2 = '#a6d96a';
         const color3 = '#fdae61';
-        const color4 = '#d7191c';
+        const color4 = '#d7191c';*/
+        const colours = {
+          '#0571b0': 1,
+          '#92c5d3': 2,
+          '#f4a582': 3,
+          '#ca0020': 4,
+          'darkgray': 0
+        };
+        const idColours = {
+          1: '#0571b0',
+          2: '#92c5d3',
+          3: '#f4a582',
+          4: '#ca0020'
+        };
+        const color1 = '#0571b0';
+        const color2 = '#92c5d3';
+        const color3 = '#f4a582';
+        const color4 = '#ca0020';
         const color5 = 'darkgray';
         var currentColor= color1;
         const minZoomAllowedToColour = 14;
@@ -63,7 +81,43 @@ $(document).ready(function(){
         new CustomControl({ position: 'topright' }).addTo(map);
 
         $('#sendColouration').hide();
-    
+
+
+        var editableLayers = new L.FeatureGroup();
+        map.addLayer(editableLayers);
+        var options = {
+          position: 'topleft',
+          draw: {
+            polygon: {
+              allowIntersection: false, // Restricts shapes to simple polygons
+              drawError: {
+                color: '#e1e100', // Color the shape will turn when intersects
+                message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+              },
+              shapeOptions: {
+                color: '#97009c'
+              }
+            },
+            polyline: {
+              shapeOptions: {
+                color: '#f357a1',
+                weight: 10
+                  }
+            },
+            polyline: false,
+            circle: false,
+            polygon: true,
+            marker: false,
+            rectangle: false,
+          },
+          edit: {
+            featureGroup: editableLayers, 
+            remove: true
+          }
+        };
+
+        var drawControl = new L.Control.Draw(options);
+
         $.ajax({
             method: "GET",
             url: baseUrlApi + "/getANPs",
@@ -148,6 +202,7 @@ $(document).ready(function(){
             anp.addTo(map);
             map.fitBounds(anp.getBounds());
             $('#getGrid').prop("disabled", false);
+            map.removeControl(drawControl);
           });
         });
     
@@ -160,6 +215,7 @@ $(document).ready(function(){
               'Content-Type': 'application/json'
             }
           }).done(function(data) {
+
             colouration = []
             data.grid.forEach((item) => {
               var cell = L.geoJSON(item.border, {
@@ -167,7 +223,7 @@ $(document).ready(function(){
                   if(item.id_colour !== null && item.id_colour!== undefined){
                     return {
                       color: idColours[item.id_colour],
-                      fillOpacity: 1.0
+                      fillOpacity: 0.3
                     };
                   } else {
                     return {
@@ -194,7 +250,7 @@ $(document).ready(function(){
                   } else {
                     layer.setStyle({
                         color: currentColor,
-                        fillOpacity: 1.0
+                        fillOpacity: 0.3
                     });
                   }
                   colouration[item.id] = {id: item.id, colour: colours[currentColor]};
@@ -206,6 +262,81 @@ $(document).ready(function(){
                 
               });
             });
+
+            map.addControl(drawControl);
+            var editableLayers = new L.FeatureGroup();
+            map.addLayer(editableLayers);
+            map.on('draw:created', function(e) {
+              var type = e.layerType,
+              layer = e.layer;
+              map.removeControl(drawControl);
+              var geojson = layer.toGeoJSON();
+              var geojsonString = geojson;
+              
+              $.ajax({
+                method: "POST",
+                url: baseUrlApi + "/get_cells",
+                headers: {
+                  'Authorization': 'Bearer ' + bearerToken,
+                  'Content-Type': 'application/json'
+                },
+                data: JSON.stringify({polygon: geojsonString, id_anp: anpId})
+              }).done(function(data) {
+                console.log(data);
+                map.eachLayer(function (layer) {
+                  if (layer instanceof L.Polygon) {
+                      map.removeLayer(layer);
+                  }
+                });
+                colouration = []
+                data.cells.forEach((item) => {
+                  var cell = L.geoJSON(item.border, {
+                    style: function (feature) {
+                      if(item.id_colour !== null && item.id_colour!== undefined){
+                        return {
+                          color: idColours[item.id_colour],
+                          fillOpacity: 0.3
+                        };
+                      } else {
+                        return {
+                          color: 'darkgray', 
+                          fillOpacity: 0.0
+                        };
+                      }
+                    }
+                  });
+                  cell.addTo(map);
+                  cell.on('click', function (e) {
+                    var layer = e.target;
+                    currentZoom = map.getZoom();
+                    //console.log('currentZoom = ', currentZoom);
+                    if(14 <= currentZoom && currentZoom <= 16){
+                      $('#sendColouration').show();
+                      if(currentColor===color5){
+                        layer.setStyle({
+                            color: currentColor,
+                            fillOpacity: 0.0
+                        });
+                        console.log(item.id);
+                        delete colouration[item.id];
+                      } else {
+                        layer.setStyle({
+                            color: currentColor,
+                            fillOpacity: 0.3
+                        });
+                      }
+                      colouration[item.id] = {id: item.id, colour: colours[currentColor]};
+                    } else if(currentZoom < 14) {
+                      alert('Nivel de zoom no permitido para colorear, acerque más');
+                    } else {
+                      alert('Nivel de zoom no permitido para colorear, aleje más');
+                    }
+                    
+                  });
+                });
+                
+              });
+
             $('#getGrid').prop("disabled", true);
           });
         });
@@ -217,3 +348,5 @@ $(document).ready(function(){
         });
 
       });
+
+});

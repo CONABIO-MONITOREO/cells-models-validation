@@ -12,6 +12,9 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin=""/>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.css" 
+    rel="stylesheet" />
     
   <link rel="stylesheet" href="styles.css"/>
 
@@ -52,13 +55,55 @@
   <br>
   
   <div class="row">
-    <div class="col-lg-4"></div>
-    <div class="col-lg-5">
-        <button type="button" class="btn" style="background: #1a9641; color: white;" id="cat1">Categoría 1</button> <label>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</label> <br>
-        <button type="button" class="btn" style="background: #a6d96a; color: black;" id="cat2">Categoría 2</button> <label>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</label> <br>
-        <button type="button" class="btn" style="background: #fdae61; color: black;" id="cat3">Categoría 3</button> <label>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</label> <br>
-        <button type="button" class="btn" style="background: #d7191c; color: black;" id="cat4">Categoría 4</button> <label>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</label> <br>
-        <button type="button" class="btn" id="cat5">Sin categoría</button> <label>Desconocido</label> <br>
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>NIVEL DE INTEGRIDAD / NATURALIDAD</th>
+            <th>NIVEL DE IMPACTO / ANTROPIZACIÓN / DEGRADACIÓN / HEMEROBIA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <button type="button" class="btn" style="background: #0571b0; color: white;" id="cat1">1.00-0.75</button>
+            </td>
+            <td>Natural</td>
+            <td>Ahemeróbico</td>
+          </tr>
+          <tr>
+            <td>
+              <button type="button" class="btn" style="background: #92c5d3; color: black;" id="cat2">0.749-0.50</button>
+            </td>
+            <td>Cuasinatural</td>
+            <td>Oligohemeróbico</td>
+          </tr>
+          <tr>
+            <td>
+              <button type="button" class="btn" style="background: #f4a582; color: black;" id="cat3">0.499-0.25</button>
+            </td>
+            <td>Seminatural</td>
+            <td>Mesohemeróbico</td>
+          </tr>
+          <tr>
+            <td>
+              <button type="button" class="btn" style="background: #ca0020; color: black;" id="cat4">0.249-0.00</button>
+            </td>
+            <td>Distantemente Natural ~ Artificial</td>
+            <td>Euhemeróbico</td>
+          </tr>
+          <tr>
+            <td>
+              <button type="button" class="btn" id="cat5">Sin categoría</button>
+            </td>
+            <td>Desconocido</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
@@ -97,6 +142,8 @@
       integrity="sha512-aUhL2xOCrpLEuGD5f6tgHbLYEXRpYZ8G5yD+WlFrXrPy2IrWBlu6bih5C9H6qGsgqnU6mgx6KtU8TreHpASprw==" 
       crossorigin="anonymous" 
       referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.js"></script>
 
 <script src="./script.js"></script>
 

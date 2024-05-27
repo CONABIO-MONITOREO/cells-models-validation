@@ -1,6 +1,3 @@
-DROP DATABASE IF EXISTS cells_model_validation_db;
-CREATE DATABASE cells_model_validation_db;
-
 CREATE EXTENSION IF NOT EXISTS postgis;
 CREATE EXTENSION IF NOT EXISTS postgis_topology;
 
@@ -53,3 +50,6 @@ INSERT INTO "user"(username, "role", "password") VALUES ('promero@conabio.gob.mx
 ALTER TABLE colouration ADD COLUMN id_anp bigint not null;
 
 ALTER TABLE colouration ADD COLUMN updated_at timestamp DEFAULT CURRENT_TIMESTAMP;
+
+
+INSERT INTO "user"(username, "role", "password") VALUES ('mariana.munguia@conabio.gob.mx', 'ADMIN', md5('c5Lk9QN3'));

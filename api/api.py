@@ -1,7 +1,7 @@
 import json
 from flask import Flask, jsonify, request
 from helpers import get_anp, get_anps, get_grid_anp, insert_colouration, \
-    login, encrypt_bearer_token, validate_bearer_token
+    login, encrypt_bearer_token, validate_bearer_token, get_cells_by_polygon
 from flask_cors import CORS
 
 
@@ -111,3 +111,21 @@ def login_ep():
         print(str(e))
     return jsonify(data)
 
+
+@app.route('/get_cells', methods=['POST'])
+def get_cells():
+    data = {'cells': []}
+    try:
+        body = request.get_json()
+        polygon = body['polygon']['geometry']
+        id_anp = body['id_anp']
+        data['cells'] = [
+                {
+                    'id': t[0], 
+                    'border': json.loads(t[1]), 
+                    'id_colour': t[2]
+                } for t in get_cells_by_polygon(json.dumps(polygon), id_anp)]
+    except Exception as e:
+        data['success'] = False
+        print(str(e))
+    return jsonify(data)
