@@ -267,8 +267,8 @@ $(document).ready(function(){
       onAdd: function(map) {
           var button = L.DomUtil.create('button');
           button.id = 'showGrid';
-          button.innerHTML = 'Mostrar malla';
-          button.title = 'Mostrar malla';
+          button.innerHTML = 'Mostrar malla completa';
+          button.title = 'Mostrar malla completa';
           button.class = 'btn btn-primary'
           L.DomUtil.addClass(button, 'btn btn-primary');
           return button;
