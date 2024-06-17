@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   
-  <title>Demo</title>
+  <title>Validación de integridad</title>
   
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" 
       integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
@@ -61,39 +61,39 @@
       <table class="table">
         <thead>
           <tr>
-            <th></th>
-            <th>NIVEL DE INTEGRIDAD / NATURALIDAD</th>
-            <th>NIVEL DE IMPACTO / ANTROPIZACIÓN / DEGRADACIÓN / HEMEROBIA</th>
+            <th>Nivel de Integridad Ecosistémica</th>
+            <th>Descripción de niveles</th>
+            <th>Ejemplos</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>
-              <button type="button" class="btn" style="background: #0571b0; color: white;" id="cat1">1.00-0.75</button>
+              <button type="button" class="btn" style="background: #0571b0; color: white; width: 150px; height: 80px;" id="cat1">IE Alta</button>
             </td>
-            <td>Natural</td>
-            <td>Ahemeróbico</td>
+            <td>Celda sin indicios de <b>impacto humano</b> aparente, bosques o selvas <b>maduros</b> (+50 años), habita <b>silvestre nativa</b> de gran tamaño (>10 kg), endémica, amenazada. Sin indicios de <b>fauna exótica</b> (vacas, perros, gatos, ovejas y cabras). </td>
+            <td><button type="button" class="btn" data-toggle="modal" data-target="#imageModal1">Ver</button></td>
           </tr>
           <tr>
             <td>
-              <button type="button" class="btn" style="background: #92c5d3; color: black;" id="cat2">0.749-0.50</button>
+              <button type="button" class="btn" style="background: #92c5d3; color: white; width: 150px; height: 80px;" id="cat2">IE Media</button>
             </td>
-            <td>Cuasinatural</td>
-            <td>Oligohemeróbico</td>
+            <td>Celda con <b>impacto humano</b> moderado, <b>vegetación secundaria dominante</b>, con alta posibilidad de recuperación y restauración de la cobertura vegetal. <b>Baja incidencia de fauna de gran tamaño</b> (>10kg). <b>Sin agricultura o con presencia de algunas milpas</b>, sin <b>plantaciones forestales</b>. Incidencia moderada de especies de <b>flora y fauna exótica</b>.</td>
+            <td><button type="button" class="btn" data-toggle="modal" data-target="#imageModal2">Ver</button></td>
           </tr>
           <tr>
             <td>
-              <button type="button" class="btn" style="background: #f4a582; color: black;" id="cat3">0.499-0.25</button>
+              <button type="button" class="btn" style="background: #f4a582; color: white; width: 150px; height: 80px;" id="cat3">IE Baja</button>
             </td>
-            <td>Seminatural</td>
-            <td>Mesohemeróbico</td>
+            <td>Celda con <b>impacto humano</b> evidente, <b>sin capacidad de recuperación de la cobertura vegetal original</b>, presencia de monocultivos, el suelo no está severamente erosionado (ej. acahuales). <b>Cercanía zonas urbanas o escasos asentamientos humanos (dispersos). Dominancia</b> de especies de flora y fauna exótica.</td>
+            <td><button type="button" class="btn" data-toggle="modal" data-target="#imageModal3">Ver</button></td>
           </tr>
           <tr>
             <td>
-              <button type="button" class="btn" style="background: #ca0020; color: black;" id="cat4">0.249-0.00</button>
+              <button type="button" class="btn" style="background: #ca0020; color: white; width: 150px; height: 80px;" id="cat4">IE Muy Baja</button>
             </td>
-            <td>Distantemente Natural ~ Artificial</td>
-            <td>Euhemeróbico</td>
+            <td>Celda dominada por <b>impactos humanos, dominancia de monocultivos, de asentamientos humanos ( rurales o urbano), presencia de minería, dominancia de ganadería intensiva, suelo transformado con respecto al original o erosionado. Dominancia</b> de especies  de flora y fauna exótica.</td>
+            <td><button type="button" class="btn" data-toggle="modal" data-target="#imageModal4">Ver</button></td>
           </tr>
           <tr>
             <td>
@@ -121,6 +121,191 @@
   <br>
   <br>
 
+  <!-- Modal -->
+  <div class="modal fade" id="imageModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">IE Alta</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Carousel -->
+          <div id="carousel1" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <li data-target="#carousel1" data-slide-to="0" class="active"></li>
+              <li data-target="#carousel1" data-slide-to="1"></li>
+              <li data-target="#carousel1" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="/img/iealta1.png" class="d-block w-100" alt="Imagen 1">
+              </div>
+              <div class="carousel-item">
+                <img src="/img/iealta2.png" class="d-block w-100" alt="Imagen 2">
+              </div>
+              <div class="carousel-item">
+                <img src="/img/iealta3.png" class="d-block w-100" alt="Imagen 3">
+              </div>
+            </div>
+            <a class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carousel1" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="imageModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">IE Media</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Carousel -->
+          <div id="carousel2" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <li data-target="#carousel2" data-slide-to="0" class="active"></li>
+              <li data-target="#carousel2" data-slide-to="1"></li>
+              <li data-target="#carousel2" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="/img/iemedia1.png" class="d-block w-100" alt="Imagen 1">
+              </div>
+              <div class="carousel-item">
+                <img src="/img/iemedia2.png" class="d-block w-100" alt="Imagen 2">
+              </div>
+              <div class="carousel-item">
+                <img src="/img/iemedia3.png" class="d-block w-100" alt="Imagen 3">
+              </div>
+            </div>
+            <a class="carousel-control-prev" href="#carousel2" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carousel2" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="imageModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">IE Baja</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Carousel -->
+          <div id="carousel3" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <li data-target="#carousel3" data-slide-to="0" class="active"></li>
+              <li data-target="#carousel3" data-slide-to="1"></li>
+              <li data-target="#carousel3" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="/img/iebaja1.png" class="d-block w-100" alt="Imagen 1">
+              </div>
+              <div class="carousel-item">
+                <img src="/img/iebaja2.png" class="d-block w-100" alt="Imagen 2">
+              </div>
+              <div class="carousel-item">
+                <img src="/img/iebaja3.png" class="d-block w-100" alt="Imagen 3">
+              </div>
+            </div>
+            <a class="carousel-control-prev" href="#carousel3" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carousel3" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="imageModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">IE Muy Baja</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Carousel -->
+          <div id="carousel4" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <li data-target="#carousel4" data-slide-to="0" class="active"></li>
+              <li data-target="#carousel4" data-slide-to="1"></li>
+              <li data-target="#carousel4" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="/img/iemuybaja1.png" class="d-block w-100" alt="Imagen 1">
+              </div>
+              <div class="carousel-item">
+                <img src="/img/iemuybaja2.png" class="d-block w-100" alt="Imagen 2">
+              </div>
+              <div class="carousel-item">
+                <img src="/img/iemuybaja3.png" class="d-block w-100" alt="Imagen 3">
+              </div>
+            </div>
+            <a class="carousel-control-prev" href="#carousel4" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carousel4" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 </body>
 
@@ -146,5 +331,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.js"></script>
 
 <script src="./script.js"></script>
+
+<script>
+  $(document).ready(function(){
+    $('#carousel1').carousel();
+    $('#carousel2').carousel();
+    $('#carousel3').carousel();
+    $('#carousel4').carousel();
+  });
+</script>
 
 </html>

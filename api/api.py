@@ -35,6 +35,13 @@ def getANP(anp_id):
 
 @app.route('/getANPs')
 def getANPs():
+    
+    response = app.make_default_options_response()
+    headers = response.headers
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    headers['Access-Control-Allow-Headers'] = 'Content-Type'
+
     user_id = validate_bearer_token(request.headers)
     if user_id == None:
         return {
@@ -99,6 +106,13 @@ def createColouration(anp_id):
 
 @app.route('/login', methods=['POST'])
 def login_ep():
+
+    response = app.make_default_options_response()
+    headers = response.headers
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    headers['Access-Control-Allow-Headers'] = 'Content-Type'
+
     data = {'success': True, 'id_user': None, 'bearer_token': None}
     try:
         body = request.get_json()

@@ -39,8 +39,6 @@ CREATE TABLE user_anp_relations( id serial,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO user_anp_relations(id_user, id_anp) SELECT 1, id FROM anp LIMIT 20;
-
 ALTER TABLE colouration ADD COLUMN id_user bigint not null;
 
 ALTER TABLE "user" ADD COLUMN "password" varchar(100) not null; 
@@ -51,5 +49,7 @@ ALTER TABLE colouration ADD COLUMN id_anp bigint not null;
 
 ALTER TABLE colouration ADD COLUMN updated_at timestamp DEFAULT CURRENT_TIMESTAMP;
 
-
 INSERT INTO "user"(username, "role", "password") VALUES ('mariana.munguia@conabio.gob.mx', 'ADMIN', md5('c5Lk9QN3'));
+
+
+INSERT INTO user_anp_relations(id_user, id_anp) SELECT 2, id FROM anp;
