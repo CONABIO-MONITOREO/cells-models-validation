@@ -30,7 +30,7 @@ def get_anp(anp_id):
 def get_anps(user_id):
     cur = conn.cursor()
     cur.execute(f"SELECT a.id, a.nombre, st_asgeojson(a.geom) FROM anp as a \
-                JOIN user_anp_relations as b ON a.id=b.id_anp WHERE b.id_user = {user_id} ORDER BY id")
+                JOIN user_anp_relations as b ON a.id=b.id_anp WHERE b.id_user = {user_id} ORDER BY a.nombre")
     data = cur.fetchall()
     cur.close()
     return data

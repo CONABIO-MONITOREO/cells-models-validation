@@ -52,4 +52,4 @@ ALTER TABLE colouration ADD COLUMN updated_at timestamp DEFAULT CURRENT_TIMESTAM
 INSERT INTO "user"(username, "role", "password") VALUES ('mariana.munguia@conabio.gob.mx', 'ADMIN', md5('c5Lk9QN3'));
 
 
-INSERT INTO user_anp_relations(id_user, id_anp) SELECT 2, id FROM anp;
+INSERT INTO user_anp_relations(id_user, id_anp) SELECT 1, id FROM anp;
