@@ -53,3 +53,7 @@ INSERT INTO "user"(username, "role", "password") VALUES ('mariana.munguia@conabi
 
 
 INSERT INTO user_anp_relations(id_user, id_anp) SELECT 1, id FROM anp;
+
+alter table anp add  column n_cells integer not null default -1;
+
+update anp set n_cells=array_length(ARRAY(select b.id FROM anp as a JOIN grid_1km as b on st_intersects(a.geom, b.geom) WHERE a.id=anp.id), 1);

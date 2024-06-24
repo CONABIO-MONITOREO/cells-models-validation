@@ -123,6 +123,8 @@
                             $.cookie('id_user', data.id_user, { expires : 1});
                             $.cookie('bearer_token', data.bearer_token, { expires : 1});
                             window.location.replace("/index.html");
+                        } else {
+                            alert('Credenciales invalidas');
                         }
                     });
                 });

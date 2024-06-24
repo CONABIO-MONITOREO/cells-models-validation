@@ -130,5 +130,23 @@ def get_cells_by_polygon(polygon, id_anp):
         cur.close()
     return data
 
+def get_dashboard_data():
+    data = None
+    try:
+        cur = conn.cursor()
+        cur.execute(f'select id_user, c.username, (count(id_cell)::float/b.n_cells::float)*100 as progress, a.id_anp, b.nombre as anp_name, max(updated_at) as updated_at \
+                    from colouration as a \
+                    LEFT JOIN anp as b ON a.id_anp=b.id \
+                    LEFT JOIN "user" as c ON a.id_user=c.id \
+                    group by id_user, c.username, a.id_anp, b.nombre, b.n_cells \
+                    order by updated_at desc, id_user')
+        data = cur.fetchall()
+        cur.close()
+    except Exception as e:
+        print(str(e))
+    finally:
+        cur.close()
+    return data
+
 
 

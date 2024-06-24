@@ -1,7 +1,8 @@
 import json
 from flask import Flask, jsonify, request
 from helpers import get_anp, get_anps, get_grid_anp, insert_colouration, \
-    login, encrypt_bearer_token, validate_bearer_token, get_cells_by_polygon
+    login, encrypt_bearer_token, validate_bearer_token, get_cells_by_polygon, \
+    get_dashboard_data
 from flask_cors import CORS
 
 
@@ -142,4 +143,13 @@ def get_cells():
     except Exception as e:
         data['success'] = False
         print(str(e))
+    return jsonify(data)
+
+@app.route('/getDashboardData', methods=['GET'])
+def getDashboardData():
+    data = get_dashboard_data()
+    data = {
+        'success': True,
+        'data': data
+    }
     return jsonify(data)
