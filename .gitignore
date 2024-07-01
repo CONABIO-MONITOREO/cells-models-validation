@@ -3,3 +3,5 @@ __pycache__
 .env
 db_data/
 db/users.sql
+nb/*.tif
+nb/*.tar.gz

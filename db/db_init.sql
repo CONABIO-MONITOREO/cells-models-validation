@@ -57,3 +57,21 @@ INSERT INTO user_anp_relations(id_user, id_anp) SELECT 1, id FROM anp;
 alter table anp add  column n_cells integer not null default -1;
 
 update anp set n_cells=array_length(ARRAY(select b.id FROM anp as a JOIN grid_1km as b on st_intersects(a.geom, b.geom) WHERE a.id=anp.id), 1);
+
+CREATE INDEX idx_anp_geom ON anp USING GIST (geom);
+
+CREATE INDEX idx_anp_nombre ON anp(nombre);
+CREATE INDEX idx_anp_id ON anp(id);
+
+CREATE INDEX idx_grid_1km_geom ON grid_1km USING GIST (geom);
+CREATE INDEX idx_grid_1km_id ON anp(id);
+
+CREATE INDEX idx_user_anp_relations_id_user ON user_anp_relations(id_user);
+
+CREATE INDEX idx_user_anp_relations_id_anp ON user_anp_relations(id_anp);
+
+CREATE INDEX idx_colouration_id_user ON colouration(id_user);
+
+CREATE INDEX idx_colouration_id_anp ON colouration(id_anp);
+
+select pg_terminate_backend(pid) from pg_stat_activity;
