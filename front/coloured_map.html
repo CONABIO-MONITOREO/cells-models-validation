@@ -16,6 +16,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.css" 
     rel="stylesheet" />
     
+    
   <link rel="stylesheet" href="styles.css"/>
 
 </head>
@@ -47,6 +48,7 @@
   <div class="row">
     <div class="col-lg-1"></div>
     <div class="col-lg-10">
+        <button id="download" class="btn btn-primary">Descargar Imagen de Mapa</button>
       <div id="map"></div>
     </div>
     <div class="col-lg-1"></div>
@@ -79,9 +81,14 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.js"></script>
 
+<script src="https://unpkg.com/leaflet-image/leaflet-image.js"></script>
+
 
 <script>
   $(document).ready(function(){
+
+    var canvasRenderer = L.canvas();
+
     const params = new URLSearchParams(window.location.search);
     const idUser = params.get('id_user');
     const anpId = params.get('id_anp');
@@ -177,7 +184,8 @@
                 color: 'white', 
                 fillOpacity: 0.0
                 };
-            }
+            },
+            renderer: canvasRenderer
         });
         anp.addTo(map);
         map.fitBounds(anp.getBounds());
@@ -193,27 +201,47 @@
         'Content-Type': 'application/json'
         }
     }).done(function(data) {
-        colouration = []
         data.grid.forEach((item) => {
             var cell = L.geoJSON(item.border, {
                 style: function (feature) {
-                console.log(item.id_colour);
-                if(item.id_colour !== null && item.id_colour!== undefined){
-                    return {
-                    color: idColours[item.id_colour],
-                    fillOpacity: 0.3
-                    };
-                } else {
-                    return {
-                        color: 'darkgray', 
-                        fillOpacity: 0.0
-                    };
-                }
-                }
+                    if(item.id_colour !== null && item.id_colour!== undefined){
+                        return {
+                            color: idColours[item.id_colour],
+                            fillColor: idColours[item.id_colour],
+                            fillOpacity: 0.3
+                        };
+                    } else {
+                        return {
+                            color: 'darkgray', 
+                            fillOpacity: 0.3,
+                            weight: 0.5
+                        };
+                    }
+                },
+                renderer: canvasRenderer
             });
             cell.addTo(map);
         });
     });
+
+    $('#download').on('click', function () {
+        leafletImage(map, function (err, canvas) {
+            if (err) {
+                console.error('Error al generar la imagen:', err);
+                return;
+            }
+
+            const imgURL = canvas.toDataURL('image/png');
+
+            const link = document.createElement('a');
+            link.href = imgURL;
+            link.download = 'map.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    });
+
   });
 </script>
 

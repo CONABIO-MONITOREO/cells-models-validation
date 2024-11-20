@@ -80,12 +80,14 @@ function drawANPGrid(anpId, baseUrlApi, bearerToken, map, currentZoom, currentCo
           if(item.id_colour !== null && item.id_colour!== undefined){
             return {
               color: idColours[item.id_colour],
+              fillColor: idColours[item.id_colour],
               fillOpacity: 0.3
             };
           } else {
             return {
               color: 'darkgray', 
-              fillOpacity: 0.0
+              fillOpacity: 0.3,
+              weight: 0.3
             };
           }
         }
@@ -153,12 +155,14 @@ function drawANPGrid(anpId, baseUrlApi, bearerToken, map, currentZoom, currentCo
               if(item.id_colour !== null && item.id_colour!== undefined){
                 return {
                   color: idColours[item.id_colour],
+                  fillColor: idColours[item.id_colour],
                   fillOpacity: 0.3
                 };
               } else {
                 return {
                   color: 'darkgray', 
-                  fillOpacity: 0.0
+                  fillOpacity: 0.3,
+                  weight: 0.3
                 };
               }
             }

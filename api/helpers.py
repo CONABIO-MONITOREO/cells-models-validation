@@ -41,7 +41,7 @@ def get_grid_anp(anp_id, user_id):
     cur.execute(f"SELECT a.id, st_asgeojson(a.geom), CASE WHEN id_user = {user_id} THEN c.id_colour ELSE null END \
                 FROM grid_1km as a JOIN anp as b ON st_intersects(a.geom, b.geom) \
                 LEFT JOIN colouration as c ON a.id=c.id_cell \
-                WHERE b.id = {anp_id}")
+                WHERE b.id = {anp_id} order by a.id")
     data = cur.fetchall()
     cur.close()
     return data
