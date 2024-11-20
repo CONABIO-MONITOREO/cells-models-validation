@@ -74,4 +74,4 @@ CREATE INDEX idx_colouration_id_user ON colouration(id_user);
 
 CREATE INDEX idx_colouration_id_anp ON colouration(id_anp);
 
-select pg_terminate_backend(pid) from pg_stat_activity;
+--select pg_terminate_backend(pid) from pg_stat_activity;

@@ -55,6 +55,7 @@
             <th>ID ANP</th>
             <th>Nombre de la ANP</th>
             <th>Última actualización</th>
+            <th>Ver mapa</th>
           </tr>
         </thead>
         <tbody id="progress-table-body">
@@ -93,6 +94,7 @@
 <script>
     var baseUrlApi = 'http://127.0.0.1:555';
     //var baseUrlApi = 'http://api:5000';
+    //var baseUrlApi = 'https://cosmos-validacion-integridad-sipecam.conabio.gob.mx/api/';
     function refreshDashboard(){
 
         $.ajax({
@@ -113,6 +115,7 @@
                         '<td>' + row[3] + '</td>' + 
                         '<td>' + row[4] + '</td>' + 
                         '<td>' + row[5] + '</td>' +
+                        '<td><a href="/coloured_map.html?id_user=' + row[0] + '&id_anp=' + row[3] + '">Ver mapa</a></td>' +
                     '</tr>'
                 );
             })

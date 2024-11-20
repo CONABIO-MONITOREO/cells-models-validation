@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+  <title>Validación de integridad</title>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" 
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
+      crossorigin="anonymous">
+    
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.css" 
+    rel="stylesheet" />
+    
+  <link rel="stylesheet" href="styles.css"/>
+
+</head>
+<body>
+
+  <div class="row">
+    <div class="col-lg-10">
+      <a href="/dashboard.html"><button class="btn btn-primary">Ir al Dashboard</button></a>
+    </div>
+    <div class="col-lg-1">
+      <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#"></a>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <button id="logout" class="btn btn-danger">Logout</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <br>
+  <br>
+
+  <div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10">
+      <div id="map"></div>
+    </div>
+    <div class="col-lg-1"></div>
+  </div>
+
+  <br>
+  <br>
+
+  
+</body>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" 
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"></script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+
+ <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" 
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+    crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js" 
+      integrity="sha512-aUhL2xOCrpLEuGD5f6tgHbLYEXRpYZ8G5yD+WlFrXrPy2IrWBlu6bih5C9H6qGsgqnU6mgx6KtU8TreHpASprw==" 
+      crossorigin="anonymous" 
+      referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.js"></script>
+
+
+<script>
+  $(document).ready(function(){
+    const params = new URLSearchParams(window.location.search);
+    const idUser = params.get('id_user');
+    const anpId = params.get('id_anp');
+
+    console.log('idUser = ' + idUser);
+    console.log('anpId = ' + anpId);
+
+    const color1 = '#0571b0';
+    const color2 = '#92c5d3';
+    const color3 = '#f4a582';
+    const color4 = '#ca0020';
+    const color5 = 'darkgray';
+    var currentColor= color1;
+
+    const idColours = {
+      1: '#0571b0',
+      2: '#92c5d3',
+      3: '#f4a582',
+      4: '#ca0020'
+    };
+
+    var baseUrlApi = 'http://127.0.0.1:555';
+    //var baseUrlApi = 'http://api:5000';
+    //var baseUrlApi = 'https://cosmos-validacion-integridad-sipecam.conabio.gob.mx/api/';
+
+    var map = L.map('map').setView([24.186550, -101.617894], 5);
+    var baseLayers = {
+      "GoogleMaps": L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+              maxZoom: 20,
+              subdomains:['mt0','mt1','mt2','mt3']
+      }),
+      "OpenStreetMap": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: '&copy; OpenStreetMap contributors'
+      }),        
+    };
+    baseLayers.GoogleMaps.addTo(map);
+    L.control.layers(baseLayers).addTo(map);
+
+    var bearerToken = $.cookie('bearer_token');
+    console.log(bearerToken);
+
+    var editableLayers = new L.FeatureGroup();
+    map.addLayer(editableLayers);
+
+    var options = {
+      position: 'topleft',
+      draw: {
+        polygon: {
+          allowIntersection: false, 
+          drawError: {
+            color: '#e1e100', 
+            message: '<strong>Oh snap!<strong> you can\'t draw that!'
+          },
+          shapeOptions: {
+            color: '#97009c'
+          }
+        },
+        polyline: {
+          shapeOptions: {
+            color: '#f357a1',
+            weight: 10
+              }
+        },
+        polyline: false,
+        circle: false,
+        polygon: true,
+        marker: false,
+        rectangle: false,
+      },
+      edit: {
+        featureGroup: editableLayers, 
+        remove: true
+      }
+    };
+
+    var drawControl = new L.Control.Draw(options);
+    
+    $.ajax({
+        method: "GET",
+        url: baseUrlApi + "/getANP/" + anpId,
+        headers: {
+            'Authorization': 'Bearer ' + bearerToken,
+            'Content-Type': 'application/json'
+        }
+    }).done(function(data) {
+        console.log(data);
+        var border = data.border;
+        var centroid = data.centroid;
+
+        var anp = L.geoJSON(border, {
+            style: function (feature) {
+                return {
+                color: 'white', 
+                fillOpacity: 0.0
+                };
+            }
+        });
+        anp.addTo(map);
+        map.fitBounds(anp.getBounds());
+        $('#getGrid').prop("disabled", false);
+        map.removeControl(drawControl);
+    });
+
+    $.ajax({
+        method: "GET",
+        url: baseUrlApi + "/getGridANPIdUserId/" + anpId + "/" + idUser,
+        headers: {
+        'Authorization': 'Bearer ' + bearerToken,
+        'Content-Type': 'application/json'
+        }
+    }).done(function(data) {
+        colouration = []
+        data.grid.forEach((item) => {
+            var cell = L.geoJSON(item.border, {
+                style: function (feature) {
+                console.log(item.id_colour);
+                if(item.id_colour !== null && item.id_colour!== undefined){
+                    return {
+                    color: idColours[item.id_colour],
+                    fillOpacity: 0.3
+                    };
+                } else {
+                    return {
+                        color: 'darkgray', 
+                        fillOpacity: 0.0
+                    };
+                }
+                }
+            });
+            cell.addTo(map);
+        });
+    });
+  });
+</script>
+
+</html>

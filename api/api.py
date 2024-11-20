@@ -86,6 +86,28 @@ def getGridANPId(anp_id):
     return jsonify(data)
 
 
+@app.route('/getGridANPIdUserId/<int:anp_id>/<int:user_id>')
+def getGridANPIdUserId(anp_id, user_id):
+    user_admin_id = validate_bearer_token(request.headers)
+    if user_admin_id == None:
+        return {
+            'success': False,
+            'grid': None
+        }
+    raw_data = get_grid_anp(anp_id, user_id)
+    data = {
+            'success': True,
+            'grid': [
+                {
+                    'id': cell[0],
+                    'border': json.loads(cell[1]),
+                    'id_colour': cell[2],
+                }
+                for cell in raw_data
+            ]}
+    return jsonify(data)
+
+
 @app.route('/createColouration/<int:anp_id>', methods=['POST'])
 def createColouration(anp_id):
     user_id = validate_bearer_token(request.headers)

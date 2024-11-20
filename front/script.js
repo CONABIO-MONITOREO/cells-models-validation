@@ -226,6 +226,7 @@ $(document).ready(function(){
 
     var baseUrlApi = 'http://127.0.0.1:555';
     //var baseUrlApi = 'http://api:5000';
+    //var baseUrlApi = 'https://cosmos-validacion-integridad-sipecam.conabio.gob.mx/api/';
     var anpId = null;
     var colouration = [];
     const colours = {
