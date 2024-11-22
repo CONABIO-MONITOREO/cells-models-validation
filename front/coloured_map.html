@@ -48,7 +48,16 @@
   <div class="row">
     <div class="col-lg-1"></div>
     <div class="col-lg-10">
-        <button id="download" class="btn btn-primary">Descargar Imagen de Mapa</button>
+        <div class="row">
+          <div class="col-lg-6">
+            <button id="download" class="btn btn-primary">Descargar Imagen de Mapa</button>
+          </div>
+          <div class="col-lg-6">
+            <!--<button id="downloadMap" class="btn btn-primary">
+              Descargar Mapa (TIF)
+            </button>-->
+          </div>
+        </div>
       <div id="map"></div>
     </div>
     <div class="col-lg-1"></div>
@@ -83,6 +92,7 @@
 
 <script src="https://unpkg.com/leaflet-image/leaflet-image.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/leaflet-geotiff@2.0.0/dist/leaflet-geotiff.min.js"></script>
 
 <script>
   $(document).ready(function(){

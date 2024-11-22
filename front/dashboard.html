@@ -107,7 +107,8 @@
             $('#progress-table-body').empty();
             data.data.forEach((row) => {
                 console.log(row);
-                $('#progress-table-body').append(
+                if(![107, 54, 183, 78, 104, 101, 35].includes(row[3])){
+                  $('#progress-table-body').append(
                     '<tr>' + 
                         '<td>' +  row[0] + '</td>' + 
                         '<td>' + row[1] + '</td>' + 
@@ -117,7 +118,8 @@
                         '<td>' + row[5] + '</td>' +
                         '<td><a href="/coloured_map.html?id_user=' + row[0] + '&id_anp=' + row[3] + '">Ver mapa</a></td>' +
                     '</tr>'
-                );
+                  );
+                }
             })
         });
     }
