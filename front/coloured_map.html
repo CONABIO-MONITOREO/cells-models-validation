@@ -55,7 +55,7 @@
             </button>
           </div>
           <div class="col-lg-6">
-            <a id="raster-download" target="_blank">
+            <a id="raster-download" download target="_blank">
               <button class="btn btn-primary">
                 Descargar Mapa (TIF)
               </button>
@@ -256,6 +256,10 @@
             link.click();
             document.body.removeChild(link);
         });
+    });
+
+    $('#download').on('click', function () {
+
     });
 
   });
